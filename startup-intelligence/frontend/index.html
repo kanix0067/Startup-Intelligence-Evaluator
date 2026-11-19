@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Startup Intelligence — AI Due Diligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7fd;--surface:#fff;--s2:#f4f5fc;--text:#14162b;--muted:#5f647d;--border:#e3e6f4;
+--brand:#5b4bff;--brand2:#8b5cf6;--teal:#14b8a6;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--info:#2563eb;
+--shadow:0 1px 2px rgba(20,20,60,.05),0 10px 28px rgba(60,50,160,.08);--glow:radial-gradient(60% 50% at 80% 0%,rgba(139,92,246,.18),transparent),radial-gradient(50% 40% at 0% 10%,rgba(20,184,166,.12),transparent);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0c1c;--surface:#14162e;--s2:#1a1c3a;--text:#eef0ff;--muted:#9aa0c6;--border:#272a52;--shadow:0 12px 32px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#0b0c1c;--surface:#14162e;--s2:#1a1c3a;--text:#eef0ff;--muted:#9aa0c6;--border:#272a52;--shadow:0 12px 32px rgba(0,0,0,.4)}
+html{scroll-behavior:smooth;scroll-padding-top:70px}html,body{height:100%}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.bgglow{position:absolute;inset:0 0 auto 0;height:700px;background:var(--glow);pointer-events:none;z-index:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px 50px;position:relative;z-index:1}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0;background:linear-gradient(var(--bg) 75%,transparent)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800}.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;color:#fff}
+.pill{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);padding:4px;border-radius:99px}
+.pill a{padding:7px 14px;border-radius:99px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none}.pill a:hover{color:var(--text)}.pill a.on{background:var(--text);color:var(--bg)}
+.ctl{display:flex;gap:8px;align-items:center}
+input.api{font:500 12px/1 ui-monospace,Consolas,monospace;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 10px;border-radius:10px;width:190px}
+.btn{border:0;cursor:pointer;font:700 14px 'Plus Jakarta Sans',sans-serif;border-radius:12px;padding:12px 20px;display:inline-flex;gap:8px;align-items:center;text-decoration:none;transition:transform .15s}
+.btn:active{transform:scale(.97)}.btn.p{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 8px 22px rgba(91,75,255,.35)}
+.btn.g{background:var(--surface);color:var(--text);border:1px solid var(--border)}.btn.s{padding:8px 12px;font-size:12.5px;border-radius:10px}.btn:disabled{opacity:.5}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;align-items:center;padding:36px 0 34px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.pill{order:3;width:100%;overflow-x:auto}}
+.tag{display:inline-flex;gap:7px;align-items:center;background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:99px;font-size:12px;font-weight:700;color:var(--brand);margin-bottom:16px}
+h1{font-size:clamp(34px,6vw,60px);line-height:1.05;margin:0 0 6px;font-weight:800;letter-spacing:-.02em}
+h1 span{background:linear-gradient(90deg,var(--brand),var(--brand2),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rule{width:56px;height:4px;border-radius:9px;background:linear-gradient(90deg,var(--brand),var(--brand2));margin:14px 0}
+.lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:520px;margin:0 0 22px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:520px;margin-bottom:24px}
+.fact{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow)}.fact b{display:block;font-size:20px;color:var(--brand)}.fact span{font-size:11.5px;color:var(--muted);font-weight:600}
+.checks{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;font-size:12.5px;color:var(--muted);font-weight:600}.checks i{color:var(--ok);font-style:normal}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+.card h2,.card h3{margin:0 0 12px;font-size:15px;font-weight:800}
+.flow{display:grid;gap:7px}.step{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:8px 11px;font-size:13px;font-weight:600}
+.step em{font-style:normal;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-size:12px}.step small{margin-left:auto;color:var(--muted);font-weight:600}
+.grid{display:grid;grid-template-columns:310px 1fr;gap:20px;align-items:start}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.sec{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--brand);margin:10px 0 4px}.title2{font-size:28px;font-weight:800;margin:0 0 16px}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin:11px 0 5px}label:first-of-type{margin-top:0}
+input[type=text],input[type=number],textarea{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);padding:10px 11px;border-radius:11px;font:500 13.5px/1.4 inherit;resize:vertical}textarea{min-height:58px}
+input:focus,textarea:focus{outline:2px solid var(--brand);outline-offset:1px}.two{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.hi{padding:9px;border-radius:10px;cursor:pointer;font-size:12.5px;border:1px solid transparent}.hi:hover{background:var(--s2);border-color:var(--border)}.hi b{display:block;font-size:13px}.hi span{color:var(--muted)}.muted{color:var(--muted);font-size:13px}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}@media(max-width:620px){.opts{grid-template-columns:1fr}}
+.opt{border-radius:18px;padding:16px;border:1px solid var(--border);cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative}.opt:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.opt.m{background:linear-gradient(160deg,rgba(37,99,235,.12),transparent)}.opt.c{background:linear-gradient(160deg,rgba(139,92,246,.14),transparent)}.opt.f{background:linear-gradient(160deg,rgba(217,119,6,.13),transparent)}.opt.r{background:linear-gradient(160deg,rgba(220,38,38,.11),transparent)}
+.opt .h{display:flex;gap:10px;align-items:center;margin-bottom:10px}.ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:16px}
+.m .ico{background:var(--info)}.c .ico{background:var(--brand2)}.f .ico{background:var(--warn)}.r .ico{background:var(--bad)}
+.opt h4{margin:0;font-size:14px}.opt small{color:var(--muted);font-size:11.5px;font-weight:600}.big{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.1}.big.sm{font-size:21px}
+.opt p{margin:8px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}.lock{opacity:.6}
+.hero2{background:linear-gradient(135deg,#6d5dfc,#7c5cf0 55%,#9b7bff);color:#fff;border-radius:20px;padding:22px;box-shadow:0 14px 34px rgba(91,75,255,.32);margin-bottom:14px}
+.hero2 h3{margin:0 0 6px;font-size:21px}.hero2 p{margin:0;font-size:13.5px;line-height:1.55;opacity:.95}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:5px 11px;border-radius:99px;font-size:11.5px;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow)}.kpi small{color:var(--muted);font-size:12px;font-weight:600}.kpi b{display:block;font-size:26px;margin-top:2px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0;position:sticky;top:calc(58px + env(safe-area-inset-top,0px));z-index:10;background:var(--bg);padding:6px 0}
+.tab{padding:8px 14px;border-radius:99px;border:1px solid var(--border);background:var(--surface);font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer}.tab.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.ringbox{text-align:center;background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:12px 6px}
+.ring{width:82px;height:82px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--border) 0)}
+.ring i{font-style:normal;width:62px;height:62px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-weight:800;font-size:15px}.ringbox small{font-size:11px;color:var(--muted);font-weight:600;display:block}
+.two-c{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}@media(max-width:800px){.two-c{grid-template-columns:1fr}}
+.rec{display:flex;gap:9px;align-items:flex-start;background:rgba(22,163,74,.09);border:1px solid rgba(22,163,74,.25);border-radius:11px;padding:9px 11px;margin-bottom:7px;font-size:13px;font-weight:600}.rec i{color:var(--ok);font-style:normal}
+.bar{margin:7px 0}.bar div:first-child{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:3px}.bar .t{height:8px;border-radius:9px;background:var(--border);overflow:hidden}.bar .t i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.item{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:11px 12px;margin-bottom:8px}.item .r1{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.item strong{font-size:13.5px}.item p{margin:5px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+.bd{font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;text-transform:uppercase;white-space:nowrap}.HIGH{background:rgba(220,38,38,.14);color:var(--bad)}.MEDIUM{background:rgba(217,119,6,.16);color:var(--warn)}.LOW{background:rgba(22,163,74,.15);color:var(--ok)}.NEUTRAL{background:rgba(37,99,235,.13);color:var(--info)}
+.banner{border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:600;margin-bottom:12px;background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.35);color:var(--warn)}
+ul.b{margin:0;padding-left:18px;font-size:13.5px;line-height:1.65}.sub{font-weight:800;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:800px){.plan{grid-template-columns:1fr}}.plan .card h3 b{font-size:28px;color:var(--brand);margin-right:6px}
+details{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;padding:0 14px}summary{cursor:pointer;padding:13px 0;font-weight:800;font-size:14px}details[open] summary{border-bottom:1px solid var(--border);margin-bottom:10px}details>div{padding-bottom:12px}
+.llm{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:8px}.llm b{display:block;color:var(--brand);font-size:11.5px;text-transform:uppercase;margin:8px 0 2px}.llm p{margin:0;font-size:13.5px;line-height:1.55;white-space:pre-wrap}
+.ev{padding:7px 0;border-bottom:1px dashed var(--border);font-size:12.5px}.ev a{color:var(--brand);font-weight:700;text-decoration:none;word-break:break-all}.ev:last-child{border:0}
+pre.json{background:#0d1020;color:#cfe3ff;padding:14px;border-radius:14px;overflow:auto;max-height:520px;font-size:12px;line-height:1.5}
+.stage{display:flex;align-items:center;gap:12px;padding:9px 2px;color:var(--muted);opacity:.45;font-size:13.5px;transition:.3s}.stage.on{opacity:1;color:var(--text);font-weight:800}.stage.done{opacity:.9;color:var(--ok)}.stage.fail{opacity:1;color:var(--bad)}
+.stage .ic{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--s2);border:1px solid var(--border)}.stage.on .ic{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;animation:pl 1.2s ease-in-out infinite}.stage.fail .ic{background:var(--bad);color:#fff}@keyframes pl{50%{transform:scale(1.12)}}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}.stage.done .ic{background:var(--ok);color:#fff}
+.pb{height:6px;border-radius:9px;background:var(--border);overflow:hidden;margin:6px 0 16px}.pb i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .5s}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:11px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1}
+.feat{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:26px 0 4px;padding-top:20px;border-top:1px solid var(--border)}
+.feat a{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text);text-decoration:none}
+.feat a:hover{box-shadow:var(--shadow);transform:translateY(-1px)}.feat i{font-style:normal;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--s2)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}.tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:8px;border-bottom:1px solid var(--border)}
+.tbl td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:top}.tbl a{color:var(--brand);font-weight:700;text-decoration:none;word-break:break-all}.tblw{overflow-x:auto}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;margin-bottom:8px;border:1px solid var(--border);background:var(--s2);font-size:13px;font-weight:600}
+.chk b{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none;font-size:13px}.chk.y b{background:var(--ok)}.chk.n b{background:var(--warn)}.chk small{display:block;color:var(--muted);font-weight:500;margin-top:2px}
+.verdict{border-radius:18px;padding:18px;margin-bottom:14px;color:#fff}.verdict.y{background:linear-gradient(135deg,#16a34a,#14b8a6)}.verdict.n{background:linear-gradient(135deg,#d97706,#ef4444)}.verdict h3{margin:0 0 4px;font-size:20px}.verdict p{margin:0;font-size:13px;opacity:.95}
+.agentgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.empty{text-align:center;padding:50px 20px}.empty .big{font-size:42px}
+.srcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:26px 0 6px}
+</style>
+</head>
+<body>
+<div class="bgglow"></div>
+<div class="wrap">
+<nav>
+ <div class="brand"><div class="logo">🧭</div>Startup Intelligence</div>
+ <div class="pill"><a href="#/home" data-p="home" class="on">Home</a><a href="#/ai" data-p="ai">AI Analysis</a><a href="#/market" data-p="market">Market Insights</a><a href="#/comp" data-p="comp">Competition</a><a href="#/valid" data-p="valid">Instant Validation</a><a href="#/fin" data-p="fin">Financial Simulator</a></div>
+ <div class="ctl"><input id="api" class="api" title="FastAPI backend URL"><button class="btn g s" id="ping">🔌 Backend</button><button class="btn g s" id="theme">🌓</button></div>
+</nav>
+<div id="p-home">
+
+<section class="hero" id="home">
+ <div>
+  <div class="tag">✨ AI-powered startup validation</div>
+  <h1>Startup Idea <span>Analyzer</span></h1>
+  <div class="rule"></div>
+  <p class="lead">Ten specialist AI agents research your market, customers, competitors, location, business model, finances and risks — then a red-team agent challenges everything before you invest a rupee.</p>
+  <div class="facts"><div class="fact"><b>10</b><span>Specialist agents</span></div><div class="fact"><b>Live</b><span>Web research (Tavily)</span></div><div class="fact"><b>Red-team</b><span>Reviewed findings</span></div></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn p" id="goA">💡 Validate your idea</button><button class="btn g" id="seeEx">See example →</button></div>
+  <div class="checks"><span><i>✔</i> Evidence-based</span><span><i>✔</i> Unknowns marked, never invented</span><span><i>✔</i> Action plan included</span></div>
+ </div>
+ <div class="card" id="how">
+  <h2>🧠 What happens when you click “Run analysis”</h2>
+  <div class="flow">
+   <div class="step"><em>1</em>Market · Customer · Competitor<small>parallel</small></div>
+   <div class="step"><em>2</em>Location · Business model · Financial<small>parallel</small></div>
+   <div class="step"><em>3</em>Risk register<small>severity + likelihood</small></div>
+   <div class="step"><em>4</em>Conflict detection<small>cross-check</small></div>
+   <div class="step"><em>5</em>Skeptic / red-team<small>challenge</small></div>
+   <div class="step"><em>6</em>Final advisor<small>MVP + 30/60/90 plan</small></div>
+  </div>
+ </div>
+</section>
+
+<div class="sec" id="analyze">Analyze</div>
+<div class="title2">Tell us about your startup</div>
+<div class="grid">
+ <div>
+  <div class="card">
+   <h2>📝 New analysis</h2>
+   <form id="form">
+    <label>Startup idea *</label><textarea name="startup_idea" required placeholder="Affordable food delivery service"></textarea>
+    <label>Problem *</label><textarea name="problem" required placeholder="College students find food delivery expensive"></textarea>
+    <label>Target customer *</label><input type="text" name="target_customer" required placeholder="College students">
+    <div class="two"><div><label>Industry *</label><input type="text" name="industry" required placeholder="Food Delivery"></div><div><label>Location *</label><input type="text" name="location" required placeholder="Coimbatore"></div></div>
+    <div class="two"><div><label>Budget (₹)</label><input type="number" name="budget" placeholder="500000"></div><div><label>Target market</label><input type="text" name="target_market" placeholder="Students in Coimbatore"></div></div>
+    <label>Additional information</label><textarea name="additional_information" placeholder="Anything else worth knowing"></textarea>
+    <div class="row"><button class="btn p" id="run" type="submit">🚀 Run analysis</button><button class="btn g" type="button" id="fill">✨ Fill example</button></div>
+   </form>
+  </div>
+  <div class="card" style="margin-top:16px"><h2>🕘 Past reports</h2><div id="hist"><div class="muted">Loading…</div></div></div>
+ </div>
+ <div id="out"></div>
+</div>
+<div class="feat"><a href="#/ai"><i>🧠</i>AI Analysis</a><a href="#/market"><i>📈</i>Market Insights</a><a href="#/comp"><i>🥊</i>Competition Analysis</a><a href="#/valid"><i>⚡</i>Instant Validation</a></div>
+</div>
+<div id="p-ai" hidden><div class="sec">AI Analysis</div><div class="title2">What the ten agents found</div><div id="c-ai"></div></div>
+<div id="p-market" hidden><div class="sec">Market Insights</div><div class="title2">Market, customer and location research</div><div id="c-market"></div></div>
+<div id="p-comp" hidden><div class="sec">Competition Analysis</div><div class="title2">Who you will compete with</div><div id="c-comp"></div></div>
+<div id="p-valid" hidden><div class="sec">Instant Validation</div><div class="title2">What to test before you spend money</div><div id="c-valid"></div></div>
+<div id="p-fin" hidden><div class="sec">Financial Simulator</div><div class="title2">Break-even and runway, calculated by tested Python code</div>
+<div class="grid"><div class="card"><h2>🎛️ Assumptions</h2><div id="finForm"></div><p class="muted" style="margin:12px 0 0">Example starting values — replace them with your own. Results are planning projections, not forecasts.</p></div><div id="finOut"></div></div></div>
+<footer>Reports are generated from live web research and saved in your backend’s SQLite database. Decision support — not a guarantee of startup success.</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=(s,e=document)=>e.querySelector(s),$$=(s,e=document)=>[...e.querySelectorAll(s)];
+const esc=s=>(s??'').toString().replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2400)};
+const inr=n=>n==null?'UNKNOWN':'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:0});
+const nice=k=>k.replace(/_/g,' ');
+const api=$('#api');try{api.value=localStorage.getItem('si_api')||'http://127.0.0.1:8000'}catch(e){api.value='http://127.0.0.1:8000'}
+api.onchange=()=>{try{localStorage.setItem('si_api',api.value.trim())}catch(e){}};const base=()=>api.value.trim().replace(/\/+$/,'');
+$('#theme').onclick=()=>{const d=document.documentElement;d.setAttribute('data-theme',d.getAttribute('data-theme')==='dark'?'light':'dark')};
+$('#ping').onclick=async()=>{try{const r=await fetch(base()+'/');const j=await r.json();toast('✅ '+(j.message||'Backend reachable'))}catch(e){toast('❌ Cannot reach '+base())}};
+function example(){const f=$('#form');f.startup_idea.value='Affordable food delivery service';f.problem.value='College students find food delivery expensive';f.target_customer.value='College students';f.industry.value='Food Delivery';f.location.value='Coimbatore';f.budget.value=500000;f.target_market.value='College students in Coimbatore';f.additional_information.value='Affordable meals with simple ordering and reliable delivery'}
+$('#fill').onclick=example;$('#seeEx').onclick=()=>{example();$('#analyze').scrollIntoView();toast('Example filled — click Run analysis')};
+
+const OPTS=[['m','📈','Market','Market research'],['c','🥊','Competitors','Competitor intelligence'],['f','💰','Financial','Runway planning'],['r','⚠️','Risk','Risk register']];
+function placeholder(){$('#out').innerHTML=`<div class="card"><h2>🤖 AI analyzer</h2><p class="muted" style="margin-top:-6px">Run an analysis to unlock these four insight cards, built only from real agent output.</p>
+<div class="opts">${OPTS.map(o=>`<div class="opt ${o[0]} lock"><div class="h"><div class="ico">${o[1]}</div><div><h4>${o[2]}</h4><small>${o[3]}</small></div></div><div class="big sm">—</div></div>`).join('')}</div></div>`}
+placeholder();
+
+const STAGES=[['Market','📈'],['Customer','🧑‍🤝‍🧑'],['Competitor','🥊'],['Location','📍'],['Business model','🧩'],['Financial','💰'],['Risk register','⚠️'],['Conflict detection','🔀'],['Red-team review','🕵️'],['Final advisor','🧠']];
+function progress(){$('#out').innerHTML=`<div class="card"><h2>🤖 Agents are working…</h2><div class="pb"><i id="pf" style="width:5%"></i></div>${STAGES.map((s,i)=>`<div class="stage" data-i="${i}"><div class="ic">${s[1]}</div>${s[0]}</div>`).join('')}</div>`;
+let i=0;const t=setInterval(()=>{$$('.stage').forEach((e,k)=>{e.classList.toggle('on',k===i);e.classList.toggle('done',k<i)});const p=$('#pf');if(p)p.style.width=Math.min(95,(i+1)*10)+'%';i=Math.min(i+1,STAGES.length-1)},900);return()=>clearInterval(t)}
+
+const showFail=err=>{$('#out').innerHTML=`<div class="card"><h2>❌ Analysis failed</h2><p class="muted">Could not complete the request to <b>${esc(base())}</b>. Is the backend running? Your form inputs are kept.</p><pre class="json">${esc(String(err.message||err).slice(0,500))}</pre><button class="btn p" onclick="$('#run').click()">🔁 Try again</button></div>`};
+const SK=['market','customer','competitor','location','business_model','financial','risk','conflicts','skeptic','final_advisor'];
+function drawJob(j){const done=SK.filter(k=>['completed','failed'].includes(j.agents[k]?.status)).length;
+ $('#out').innerHTML=`<div class="card"><h2>🤖 Agents are working…</h2><div class="pb"><i style="width:${Math.max(4,done/SK.length*100)}%"></i></div>${SK.map((k,i)=>{const a=j.agents[k]||{status:'pending'},c=a.status==='running'?'on':a.status==='completed'?'done':a.status==='failed'?'fail':'';
+ return `<div class="stage ${c}" style="${a.status==='pending'?'':'opacity:1'}"><div class="ic">${a.status==='completed'?'✓':a.status==='failed'?'✕':STAGES[i][1]}</div><div style="flex:1">${STAGES[i][0]}${a.error?`<div class="muted" style="font-size:11.5px;color:var(--bad)">${esc(a.error.slice(0,120))}</div>`:''}</div><small class="muted">${a.status==='running'?'running…':a.duration_s!=null?a.duration_s+'s':''}</small></div>`}).join('')}</div>`}
+async function pollJob(id){for(;;){const j=await(await fetch(base()+'/analyses/'+id)).json();drawJob(j);
+ if(j.status==='completed'){const d=await(await fetch(base()+'/startups/'+j.report_id)).json();render(d.startup,d.analysis,d.id);hist();toast('✅ Analysis complete');return}
+ if(j.status==='failed')throw new Error(j.error||'Analysis failed');await new Promise(r=>setTimeout(r,800))}}
+async function legacyRun(p){const stop=progress();try{const r=await fetch(base()+'/startup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});if(!r.ok)throw new Error(await r.text()||r.statusText);const d=await r.json();stop();render(d.startup,d.analysis,d.id);hist();toast('✅ Analysis complete')}catch(e){stop();throw e}}
+$('#form').onsubmit=async e=>{e.preventDefault();const p={};for(const[k,v]of new FormData(e.target))p[k]=k==='budget'?(v?Number(v):null):(v||null);
+ const b=$('#run');b.disabled=true;$('#out').scrollIntoView({block:'start'});
+ try{const r=await fetch(base()+'/analyses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});
+  if(r.status===404||r.status===405)await legacyRun(p);   // older backend without background jobs
+  else if(!r.ok)throw new Error(await r.text()||r.statusText);
+  else await pollJob((await r.json()).job_id)}
+ catch(err){showFail(err)}finally{b.disabled=false}};
+
+async function hist(){const el=$('#hist');try{const j=await (await fetch(base()+'/startups')).json();const r=j.reports||[];
+ el.innerHTML=r.length?r.map(x=>`<div class="hi" data-id="${x.id}"><b>${esc(x.startup_idea||'Untitled')}</b><span>${esc(x.industry||'')} · ${esc(x.location||'')}</span></div>`).join(''):'<div class="muted">No saved reports yet.</div>';
+ $$('.hi',el).forEach(h=>h.onclick=async()=>{try{const d=await (await fetch(base()+'/startups/'+h.dataset.id)).json();render(d.startup,d.analysis,d.id);$('#out').scrollIntoView()}catch(e){toast('Could not load report')}})}
+ catch(e){el.innerHTML='<div class="muted">Backend unreachable.</div>'}}
+hist();
+
+/* ---------- helpers for rendering real data ---------- */
+const rel=v=>{const m={HIGH:'LOW',LOW:'HIGH'}[v]||'MEDIUM';return `<span class="bd ${m}">${esc(v)} reliability</span>`};
+const bd=v=>v?`<span class="bd ${esc(v)}">${esc(v)}</span>`:'';
+const list=a=>a&&a.length?`<ul class="b">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<span class="muted">None recorded</span>';
+function val(v){if(v==null||v==='')return '<span class="muted">—</span>';
+ if(Array.isArray(v)){if(!v.length)return '<span class="muted">None recorded</span>';return typeof v[0]==='object'?v.map(card).join(''):list(v)}
+ if(typeof v==='object')return Object.entries(v).map(([k,x])=>`<div class="sub">${esc(nice(k))}</div>${val(x)}`).join('');
+ return `<p style="margin:0;font-size:13.5px;line-height:1.55">${esc(v)}</p>`}
+function card(o){const t=o.risk||o.experiment||o.name||o.type||o.challenge||o.title||o.claim||o.category||'';const sev=o.severity||'';
+ const rest=Object.entries(o).filter(([k,v])=>!['risk','experiment','name','type','challenge','title','severity'].includes(k)&&v!=null&&v!==''&&k!=='claim'||k==='claim'&&!t).map(([k,v])=>`<p><b>${esc(nice(k))}:</b> ${esc(Array.isArray(v)?v.join(', '):typeof v==='object'?JSON.stringify(v):v)}</p>`).join('');
+ return `<div class="item"><div class="r1"><strong>${esc(t)}</strong>${bd(sev)}</div>${rest}</div>`}
+function llm(l){if(!l)return '';const ok=l.status==='SUCCESS';
+ const secs=(l.output||'').split(/\n(?=[A-Z_]{3,}:)/).map(s=>s.trim()).filter(Boolean).map(p=>{const m=p.match(/^([A-Z_]{3,}):\s*([\s\S]*)$/);return m?`<b>${esc(nice(m[1]))}</b><p>${esc(m[2])}</p>`:`<p>${esc(p)}</p>`}).join('');
+ return `<div class="llm"><span class="bd ${ok?'LOW':'MEDIUM'}">${esc(l.status||'UNKNOWN')} · ${esc(l.model||'')}</span>${ok?secs:'<p style="margin-top:8px">Gemini synthesis was not available for this run, so the rule-based analysis is shown instead.</p>'}</div>`}
+const evid=a=>a&&a.length?a.slice(0,8).map(e=>`<div class="ev"><a href="${esc(e.source_url)}" target="_blank" rel="noopener">${esc(e.source_title||e.source_url)}</a><br><span class="muted">${rel(e.source_reliability)} confidence ${e.confidence!=null?Math.round(e.confidence*100)+'%':'—'} · ${esc(e.evidence_status||'')}</span></div>`).join(''):'<span class="muted">No sources collected.</span>';
+const ring=(p,c,label,sub)=>`<div class="ringbox"><div class="ring" style="--p:${p};--c:${c}"><i>${Math.round(p)}%</i></div><b style="font-size:12.5px">${label}</b><small>${sub}</small></div>`;
+const bar=(label,v,max,fmt)=>`<div class="bar"><div><span>${esc(nice(label))}</span><span>${fmt}</span></div><div class="t"><i style="width:${max?Math.min(100,v/max*100):0}%"></i></div></div>`;
+
+let CUR=null;
+function render(st,an,id){CUR={st,an,id};const fa=an.final_advisor||{};
+ const status=fa.analysis_status||{},keys=Object.keys(status),avail=keys.filter(k=>status[k]==='RESEARCH_AVAILABLE').length;
+ const risk=an.risk?.risk_summary||{high:0,medium:0,low:0,total:0};
+ const ev=['market','customer','competitor','location','business_model','financial','risk'].flatMap(k=>an[k]?.evidence||[]);
+ const avgConf=ev.length?ev.reduce((s,e)=>s+(e.confidence||0),0)/ev.length*100:0;
+ const urls=new Set(ev.map(e=>e.source_url));
+ const conf=an.conflicts?.total_conflicts??0, concerns=an.skeptic?.total_concerns??0;
+ const llmOk=fa.llm_synthesis?.status==='SUCCESS';
+ const failedAg=SK.filter(k=>an[k]&&an[k].status==='FAILED'),failBanner=failedAg.length?`<div class="banner">⚠️ ${failedAg.length} agent(s) failed: ${failedAg.map(k=>esc(nice(k))+(an[k].error?' ('+esc(String(an[k].error).slice(0,80))+')':'')).join(', ')}. The rest of the report is still shown — treat the missing parts as UNKNOWN.</div>`:'';
+ $('#out').innerHTML=`
+ <div class="hero2"><h3>${esc(st.startup_idea)}</h3><p>${esc((fa.executive_summary||'').slice(0,330))}${(fa.executive_summary||'').length>330?'…':''}</p>
+  <div class="chips"><span class="chip">📍 ${esc(st.location)}</span><span class="chip">🏭 ${esc(st.industry)}</span><span class="chip">💰 ${inr(st.budget)}</span><span class="chip">${llmOk?'✨ Gemini synthesis':'⚙️ Rule-based advisor'}</span></div></div>
+ ${failBanner}<div class="tabs" id="tabs">${[['ov','📊 Overview'],['rp','📝 Report'],['cc','🔀 Cross-check'],['pl','🗓️ Plan'],['au','📌 Assumptions & Unknowns'],['ad','🧩 Agent Data'],['js','{ } JSON']].map((t,i)=>`<div class="tab ${i?'':'on'}" data-t="${t[0]}">${t[1]}</div>`).join('')}</div>
+ <div id="tc"></div>`;
+ const show=t=>{$$('.tab').forEach(x=>x.classList.toggle('on',x.dataset.t===t));$('#tc').innerHTML=TABS[t]();};
+ $('#tabs').onclick=e=>{const t=e.target.closest('.tab');if(t)show(t.dataset.t)};
+ window.goTab=show;
+ const comp=an.competitor||{},fin=an.financial||{},mk=an.market||{},cc=comp.category_counts||{};
+ const topSrc=(mk.research_data||[]).slice(0,2).map(r=>r.title).filter(Boolean);
+ const TABS={
+ ov:()=>`<div class="kpis">
+   <div class="kpi"><small>Risks logged</small><b>${risk.total}</b><span class="bd HIGH">${risk.high} high</span></div>
+   <div class="kpi"><small>Conflicts found</small><b>${conf}</b><span class="bd ${conf?'MEDIUM':'LOW'}">${conf?'review':'clean'}</span></div>
+   <div class="kpi"><small>Red-team concerns</small><b>${concerns}</b><span class="bd ${(an.skeptic?.summary?.high||0)?'HIGH':'LOW'}">${an.skeptic?.summary?.high||0} high</span></div>
+   <div class="kpi"><small>Sources collected</small><b>${urls.size}</b><span class="bd NEUTRAL">unique URLs</span></div></div>
+  <div class="opts" style="margin-bottom:14px">
+   <div class="opt m" onclick="goTab('ad')"><div class="h"><div class="ico">📈</div><div><h4>Market</h4><small>Market research</small></div></div>
+    <div class="big sm">${status.market==='RESEARCH_AVAILABLE'?'Research available':'Limited data'}</div>
+    <p>Market size: <b>UNKNOWN</b> unless a reliable figure was found.<br>${(mk.research_data||[]).length} source(s)${topSrc.length?': '+esc(topSrc.join(' · ')):''}</p></div>
+   <div class="opt c" onclick="goTab('ad')"><div class="h"><div class="ico">🥊</div><div><h4>Competitors</h4><small>Competitor intelligence</small></div></div>
+    <div class="big">${(comp.direct_competitors||[]).length} <span style="font-size:14px;font-weight:700;color:var(--muted)">direct</span></div>
+    <p>${cc.POTENTIAL_COMPETITOR||0} potential · ${cc.MARKET_REPORT||0} market reports · ${comp.total_results||0} results.<br>Market share &amp; revenue: UNKNOWN.</p></div>
+   <div class="opt f" onclick="goTab('au')"><div class="h"><div class="ico">💰</div><div><h4>Financial runway</h4><small>Planning estimate</small></div></div>
+    <div class="big">${fin.runway_months!=null?'≈ '+fin.runway_months+' mo':'UNKNOWN'}</div>
+    <p>Budget ${inr(fin.budget)} · est. ${inr(fin.monthly_operating_cost)}/month. Based on assumptions — not a forecast.</p></div>
+   <div class="opt r" onclick="goTab('cc')"><div class="h"><div class="ico">⚠️</div><div><h4>Risk</h4><small>Risk register</small></div></div>
+    <div class="big">${risk.total} <span style="font-size:14px;font-weight:700;color:var(--muted)">risks</span></div>
+    <p><span class="bd HIGH">${risk.high} high</span> <span class="bd MEDIUM">${risk.medium} medium</span> <span class="bd LOW">${risk.low} low</span><br>Severity is a preliminary estimate.</p></div>
+  </div>
+  <div class="two-c">
+   <div class="card"><h3>🎯 Research readiness</h3><div class="rings">
+    ${ring(keys.length?avail/keys.length*100:0,'var(--brand)','Research coverage',avail+' of '+keys.length+' agents')}
+    ${ring(avgConf,'var(--teal)','Evidence confidence','avg of '+ev.length+' items')}
+    ${ring(risk.total?risk.high/risk.total*100:0,'var(--bad)','High-severity risks',risk.high+' of '+risk.total)}</div>
+    <p class="muted" style="margin:10px 0 0">Source-level confidence only — a trusted domain does not verify every claim.</p></div>
+   <div class="card"><h3>🧠 AI recommendations</h3>${(fa.next_steps||[]).slice(0,5).map(s=>`<div class="rec"><i>✔</i>${esc(s)}</div>`).join('')||'<span class="muted">No recommendations.</span>'}</div>
+  </div>
+  <div class="card"><h3>💸 Planning budget allocation</h3>${Object.entries(fin.budget_allocation||{}).map(([k,v])=>bar(k,v,fin.budget,inr(v))).join('')||'<span class="muted">No budget provided.</span>'}</div>`,
+ rp:()=>`${llmOk?'':'<div class="banner">Gemini synthesis was unavailable for this run (rate limit, quota or error). The rule-based advisor report is shown.</div>'}
+  <div class="card"><h3>🎯 Executive summary</h3><p style="font-size:14px;line-height:1.65;margin:0">${esc(fa.executive_summary||'')}</p>${llm(fa.llm_synthesis)}</div>
+  <div class="card" style="margin-top:14px"><h3>⚠️ Risk register</h3>${val(an.risk?.risks)}</div>`,
+ cc:()=>`<div class="card"><h3>🔀 Conflicts between agents (${conf})</h3>${(an.conflicts?.conflicts||[]).map(c=>`<div class="item"><div class="r1"><strong>${esc(nice(c.type))}</strong>${bd(c.severity)}</div><p>${esc(c.description)}</p><p><b>Agents:</b> ${esc((c.source_agents||[]).join(', '))} · <b>confidence</b> ${c.confidence!=null?Math.round(c.confidence*100)+'%':'—'}</p></div>`).join('')||'<span class="muted">No conflicts detected.</span>'}</div>
+  <div class="card" style="margin-top:14px"><h3>🕵️ Red-team challenges (${concerns})</h3>${(an.skeptic?.concerns||[]).map(c=>`<div class="item"><div class="r1"><strong>${esc(c.category)}</strong>${bd(c.severity)}</div><p>${esc(c.challenge)}</p></div>`).join('')||'<span class="muted">None.</span>'}</div>`,
+ pl:()=>{const m=fa.mvp_recommendation||{},ap=fa.action_plan||{};return `<div class="card"><h3>🧪 MVP recommendation</h3>${val(m)}</div>
+  <div class="sub">30 / 60 / 90-day action plan</div><div class="plan">${[['30_days','30','Research & validate'],['60_days','60','Build & pilot'],['90_days','90','Evaluate & decide']].map(p=>`<div class="card"><h3><b>${p[1]}</b>${p[2]}</h3>${list(ap[p[0]])}</div>`).join('')}</div>
+  <div class="card" style="margin-top:14px"><h3>🔬 Validation experiments</h3>${val(fa.validation_experiments)}</div>`},
+ au:()=>`<div class="two-c"><div class="card"><h3>📌 Assumptions</h3>${list(fa.assumptions)}<div class="sub">Financial assumptions</div>${list(fin.assumptions)}</div><div class="card"><h3>❓ Unknowns</h3>${list(fa.unknowns)}<div class="sub">Financial unknowns</div>${list(fin.unknowns)}</div></div>`,
+ ad:()=>[['market','📈 Market'],['customer','🧑‍🤝‍🧑 Customer'],['competitor','🥊 Competitor'],['location','📍 Location'],['business_model','🧩 Business model'],['financial','💰 Financial'],['risk','⚠️ Risk'],['conflicts','🔀 Conflicts'],['skeptic','🕵️ Skeptic']].map(([k,t])=>{const d=an[k]||{};
+   const body=Object.entries(d).filter(([x])=>!['agent','research_data','evidence','llm_analysis'].includes(x)).map(([x,v])=>v==null||(Array.isArray(v)&&!v.length)?'':`<div class="sub">${esc(nice(x))}</div>${val(v)}`).join('');
+   return `<details><summary>${t}</summary><div>${body}${llm(d.llm_analysis)}${d.evidence?`<div class="sub">Sources</div>${evid(d.evidence)}`:''}</div></details>`}).join(''),
+ js:()=>`<button class="btn g s" onclick="navigator.clipboard.writeText(JSON.stringify(CUR.an,null,2)).then(()=>toast('JSON copied'))" style="margin-bottom:10px">📋 Copy JSON</button><pre class="json">${esc(JSON.stringify(an,null,2))}</pre>`};
+ show('ov')}
+
+/* ---------- multi-page router + 4 insight pages ---------- */
+const PAGES=['home','ai','market','comp','valid','fin'];
+function route(){const h=(location.hash||'#/home').replace('#/','');const p=PAGES.includes(h)?h:'home';
+ PAGES.forEach(x=>{$('#p-'+x).hidden=x!==p});$$('.pill a').forEach(a=>a.classList.toggle('on',a.dataset.p===p));
+ window.scrollTo(0,0);if(p==='fin')initFin();else if(p!=='home')loadPage(p)}
+addEventListener('hashchange',route);
+$('#goA').onclick=()=>$('#analyze').scrollIntoView();
+async function ensureReport(){if(CUR)return CUR;try{const j=await(await fetch(base()+'/startups')).json();const f=(j.reports||[])[0];
+ if(f){const d=await(await fetch(base()+'/startups/'+f.id)).json();CUR={st:d.startup,an:d.analysis,id:d.id}}}catch(e){}return CUR}
+const emptyBox=(why)=>`<div class="card empty"><div class="big">📭</div><h3>No report yet</h3><p class="muted">${why}</p><a class="btn p" href="#/home" onclick="setTimeout(()=>$('#analyze').scrollIntoView(),50)">🚀 Run an analysis</a></div>`;
+const topbar=(st)=>`<div class="hero2"><h3>${esc(st.startup_idea)}</h3><div class="chips"><span class="chip">📍 ${esc(st.location)}</span><span class="chip">🏭 ${esc(st.industry)}</span><span class="chip">💰 ${inr(st.budget)}</span></div></div>`;
+async function loadPage(p){const el=$('#c-'+p);el.innerHTML='<div class="card"><span class="muted">Loading latest report…</span></div>';
+ const c=await ensureReport();if(!c){el.innerHTML=emptyBox('Run an analysis first (or start the backend), then this page fills with real results.');return}
+ el.innerHTML=topbar(c.st)+PG[p](c.st,c.an)}
+const AG=[['market','📈','Market'],['customer','🧑‍🤝‍🧑','Customer'],['competitor','🥊','Competitor'],['location','📍','Location'],['business_model','🧩','Business model'],['financial','💰','Financial'],['risk','⚠️','Risk']];
+const srcCards=(rd,evd)=>{const m={};(evd||[]).forEach(e=>{m[e.source_url]=e});return (rd||[]).length?`<div class="srcgrid">${rd.slice(0,8).map(r=>{const e=m[r.url]||{};return `<div class="item"><div class="r1"><strong style="font-size:13px">${esc(r.title||r.url)}</strong>${e.source_reliability?rel(e.source_reliability):''}</div><p>${esc((r.content||'').slice(0,170))}${(r.content||'').length>170?'…':''}</p><p><a href="${esc(r.url)}" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700;word-break:break-all">${esc(r.url)}</a></p></div>`}).join('')}</div>`:'<span class="muted">No sources were returned for this section.</span>'};
+const PG={
+ai:(st,an)=>{const fa=an.final_advisor||{},stt=fa.analysis_status||{},ok=fa.llm_synthesis?.status==='SUCCESS',risk=an.risk?.risk_summary||{total:0,high:0};
+ return `${ok?'':'<div class="banner">Gemini synthesis was unavailable for this run (quota, rate limit or error) — the rule-based advisor result is shown.</div>'}
+ <div class="card"><h3>🎯 Executive summary</h3><p style="font-size:14px;line-height:1.65;margin:0">${esc(fa.executive_summary||'')}</p>${llm(fa.llm_synthesis)}</div>
+ <div class="sub">Agent status</div><div class="agentgrid">${AG.map(a=>{const v=stt[a[0]]||'UNKNOWN';return `<div class="item"><div class="r1"><strong>${a[1]} ${a[2]}</strong></div><p><span class="bd ${v==='RESEARCH_AVAILABLE'?'LOW':'MEDIUM'}">${esc(nice(v))}</span></p></div>`}).join('')}</div>
+ <div class="two-c" style="margin-top:14px"><div class="card"><h3>🧠 AI recommendations</h3>${(fa.next_steps||[]).map(x=>`<div class="rec"><i>✔</i>${esc(x)}</div>`).join('')||'<span class="muted">None.</span>'}</div>
+ <div class="card"><h3>🔎 Key findings</h3>${list(fa.key_findings)}</div></div>
+ <div class="card"><h3>⚠️ Top risks (${risk.total} total · ${risk.high} high)</h3>${val((an.risk?.risks||[]).slice(0,6))}</div>`},
+market:(st,an)=>{const mk=an.market||{},cu=an.customer||{},lo=an.location||{},fa=an.final_advisor||{},stt=fa.analysis_status||{};
+ return `<div class="kpis"><div class="kpi"><small>Market research</small><b style="font-size:17px">${stt.market==='RESEARCH_AVAILABLE'?'Available':'Limited data'}</b><span class="bd NEUTRAL">${(mk.research_data||[]).length} sources</span></div>
+ <div class="kpi"><small>Market size</small><b style="font-size:17px">UNKNOWN</b><span class="bd MEDIUM">not invented</span></div>
+ <div class="kpi"><small>Customer research</small><b style="font-size:17px">${stt.customer==='RESEARCH_AVAILABLE'?'Available':'Limited data'}</b><span class="bd NEUTRAL">${(cu.research_data||[]).length} sources</span></div>
+ <div class="kpi"><small>Location sources</small><b style="font-size:17px">${lo.total_results||0}</b><span class="bd NEUTRAL">${esc(st.location)}</span></div></div>
+ <div class="card"><h3>📈 Market analysis</h3><p class="muted" style="margin-top:-6px">Query: ${esc(mk.research_query||'—')}</p>${llm(mk.llm_analysis)}<div class="sub">Sources</div>${srcCards(mk.research_data,mk.evidence)}</div>
+ <div class="card" style="margin-top:14px"><h3>🧑‍🤝‍🧑 Customer insights</h3><p class="muted" style="margin-top:-6px">Target: ${esc(cu.target_customer||st.target_customer)}</p>${llm(cu.llm_analysis)}<div class="sub">Sources</div>${srcCards(cu.research_data,cu.evidence)}</div>
+ <div class="two-c" style="margin-top:14px"><div class="card"><h3>📍 Location opportunities</h3>${list(lo.opportunities)}<div class="sub">Location risks</div>${list(lo.risks)}</div>
+ <div class="card"><h3>❓ Still unknown</h3>${list(lo.unknowns)}<p class="muted" style="margin:10px 0 0">Source confidence is domain-level; claims are unverified until checked.</p></div></div>`},
+comp:(st,an)=>{const c=an.competitor||{},cc=c.category_counts||{},tot=c.total_results||0,all=c.competitors||[],cf=(an.conflicts?.conflicts||[]).filter(x=>/COMPETITOR/.test(x.type||''));
+ return `<div class="kpis"><div class="kpi"><small>Direct competitors</small><b>${(c.direct_competitors||[]).length}</b><span class="bd HIGH">direct</span></div>
+ <div class="kpi"><small>Potential</small><b>${(c.potential_competitors||[]).length}</b><span class="bd MEDIUM">unconfirmed</span></div>
+ <div class="kpi"><small>Market reports</small><b>${(c.market_reports||[]).length}</b><span class="bd NEUTRAL">context</span></div>
+ <div class="kpi"><small>Results analysed</small><b>${tot}</b><span class="bd NEUTRAL">deduplicated</span></div></div>
+ ${cf.map(x=>`<div class="banner">${esc(nice(x.type))}: ${esc(x.description)}</div>`).join('')}
+ <div class="two-c"><div class="card"><h3>📊 Result categories</h3>${Object.entries(cc).map(([k,v])=>bar(k,v,tot,v)).join('')||'<span class="muted">None.</span>'}<p class="muted" style="margin:10px 0 0">Rule-based classification from titles, URLs and snippets.</p></div>
+ <div class="card"><h3>🔎 Queries used</h3>${list(c.research_queries)}</div></div>
+ <div class="card"><h3>🥊 Competitor list</h3>${all.length?`<div class="tblw"><table class="tbl"><tr><th>Name</th><th>Category</th><th>Description</th></tr>${all.slice(0,15).map(x=>`<tr><td><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a></td><td><span class="bd ${x.category==='DIRECT_COMPETITOR'?'HIGH':x.category==='POTENTIAL_COMPETITOR'?'MEDIUM':'NEUTRAL'}">${esc(nice(x.category||''))}</span></td><td>${esc((x.description||'').slice(0,140))}</td></tr>`).join('')}</table></div>`:'<span class="muted">No competitors were identified from search results.</span>'}</div>
+ <div class="two-c" style="margin-top:14px"><div class="card"><h3>📌 Assumptions</h3>${list(c.assumptions)}</div><div class="card"><h3>❓ Unknowns</h3>${list(c.unknowns)}<p class="muted" style="margin:10px 0 0">Market share and revenue stay UNKNOWN without reliable data.</p></div></div>`},
+valid:(st,an)=>{const fa=an.final_advisor||{},stt=fa.analysis_status||{},c=an.competitor||{},conf=an.conflicts?.conflicts||[],gaps=conf.filter(x=>/DATA_GAP/.test(x.type||'')),risk=an.risk?.risk_summary||{high:0,total:0},sk=an.skeptic||{};
+ const checks=[[stt.market==='RESEARCH_AVAILABLE','Market research available','Needed to size the opportunity'],[stt.customer==='RESEARCH_AVAILABLE','Customer research available','Needed to understand buyers'],[(c.direct_competitors||[]).length>0,'Competitors identified',(c.direct_competitors||[]).length+' direct competitor(s) found'],[gaps.length===0,'No missing-data conflicts',gaps.length?gaps.length+' data gap(s) flagged in Cross-check':'All agents returned data'],[st.budget!=null,'Budget provided',st.budget!=null?inr(st.budget)+' used for planning':'Add a budget for financial planning']];
+ const pass=checks.filter(x=>x[0]).length,good=pass===checks.length;
+ return `<div class="verdict ${good?'y':'n'}"><h3>${good?'✅ Ready to start real-world validation':'⚠️ Fill the research gaps first'}</h3><p>${pass} of ${checks.length} readiness checks passed. This is a rule-based check of research completeness — not a prediction that the startup will succeed.</p></div>
+ <div class="two-c"><div class="card"><h3>✔ Readiness checklist</h3>${checks.map(x=>`<div class="chk ${x[0]?'y':'n'}"><b>${x[0]?'✓':'!'}</b><div>${x[1]}<small>${esc(x[2])}</small></div></div>`).join('')}</div>
+ <div class="card"><h3>🧪 MVP recommendation</h3>${val(fa.mvp_recommendation)}</div></div>
+ <div class="card"><h3>🔬 Validation experiments</h3>${val(fa.validation_experiments)}</div>
+ <div class="two-c" style="margin-top:14px"><div class="card"><h3>📌 Assumptions to test</h3>${list(fa.assumptions)}</div><div class="card"><h3>🕵️ High-severity red-team concerns</h3>${(sk.concerns||[]).filter(x=>x.severity==='HIGH').slice(0,5).map(x=>`<div class="item"><div class="r1"><strong>${esc(x.category)}</strong>${bd(x.severity)}</div><p>${esc(x.challenge)}</p></div>`).join('')||'<span class="muted">None flagged.</span>'}</div></div>
+ <div class="sub">First 30 days</div><div class="card">${list((fa.action_plan||{})['30_days'])}</div>`}
+};
+
+/* ---------- Financial simulator (calls POST /finance/simulate) ---------- */
+const FIN=[['budget','Starting budget (₹)',500000,0,5000000,10000],['price_per_order','Price per order (₹)',120,1,1000,1],['variable_cost_per_order','Variable cost per order (₹)',85,0,1000,1],['monthly_fixed_costs','Monthly fixed costs (₹)',40000,0,500000,1000],['starting_orders_per_month','Orders in month 1',300,0,10000,10],['monthly_growth_pct','Monthly growth (%)',8,-50,100,1],['months','Months to simulate',12,1,36,1]];
+let finInit=false,finT=null;
+function initFin(){if(!finInit){finInit=true;
+ const b=CUR&&CUR.st&&CUR.st.budget;if(b)FIN[0][2]=b;
+ $('#finForm').innerHTML=FIN.map(f=>`<label>${f[1]}</label><div style="display:flex;gap:8px;align-items:center"><input type="range" data-k="${f[0]}" min="${f[3]}" max="${Math.max(f[4],f[2])}" step="${f[5]}" value="${f[2]}" style="flex:1"><input type="number" data-n="${f[0]}" value="${f[2]}" min="${f[3]}" style="width:100px"></div>`).join('');
+ $$('#finForm input').forEach(i=>i.addEventListener('input',()=>{const k=i.dataset.k||i.dataset.n;$$('#finForm [data-k="'+k+'"],#finForm [data-n="'+k+'"]').forEach(o=>{if(o!==i)o.value=i.value});clearTimeout(finT);finT=setTimeout(runFin,300)}))}
+ runFin()}
+function finBody(){const o={};FIN.forEach(f=>{o[f[0]]=Number($('#finForm [data-n="'+f[0]+'"]').value)});return o}
+async function runFin(){const out=$('#finOut');
+ try{const r=await fetch(base()+'/finance/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(finBody())});
+  if(!r.ok){const e=await r.json().catch(()=>({}));out.innerHTML=`<div class="banner">Invalid input: ${esc(JSON.stringify(e.detail||e).slice(0,200))}</div>`;return}
+  drawFin(await r.json())}catch(e){out.innerHTML='<div class="card empty"><div class="big">🔌</div><p class="muted">Backend unreachable. Start it and retry. (Needs the updated backend with /finance/simulate.)</p></div>'}}
+function drawFin(d){const sc=d.scenarios,base0=sc.base,names=[['pessimistic','var(--bad)'],['base','var(--brand)'],['optimistic','var(--ok)']];
+ const all=names.flatMap(n=>sc[n[0]].monthly.map(m=>m.cash_balance)),mn=Math.min(0,...all),mx=Math.max(0,...all),W=640,H=250,pad=40,N=base0.monthly.length;
+ const X=i=>pad+(N>1?i/(N-1):0)*(W-pad-12),Y=v=>H-24-((v-mn)/((mx-mn)||1))*(H-44);
+ const lines=names.map(n=>`<polyline fill="none" stroke="${n[1]}" stroke-width="2.5" points="${sc[n[0]].monthly.map((m,i)=>X(i)+','+Y(m.cash_balance)).join(' ')}"/>`).join('');
+ const mo=v=>v==null?'Not reached':'Month '+v;
+ $('#finOut').innerHTML=`${d.warnings.map(w=>`<div class="banner">${esc(w)}</div>`).join('')}
+ <div class="kpis"><div class="kpi"><small>Break-even orders / month</small><b style="font-size:20px">${d.break_even_orders_per_month==null?'Impossible':Math.ceil(d.break_even_orders_per_month)}</b><span class="bd NEUTRAL">${d.contribution_margin_pct}% margin</span></div>
+ <div class="kpi"><small>Profitable from (base)</small><b style="font-size:20px">${mo(base0.break_even_month)}</b><span class="bd NEUTRAL">monthly profit ≥ 0</span></div>
+ <div class="kpi"><small>Cash runs out (base)</small><b style="font-size:20px">${mo(base0.cash_runs_out_month)}</b><span class="bd ${base0.cash_runs_out_month?'HIGH':base0.break_even_month?'LOW':'MEDIUM'}">${base0.cash_runs_out_month?'runway risk':base0.break_even_month?'cash holds':'still losing money'}</span></div>
+ <div class="kpi"><small>Lowest cash (base)</small><b style="font-size:20px">${inr(base0.lowest_cash)}</b><span class="bd NEUTRAL">ending ${inr(base0.ending_cash)}</span></div></div>
+ <div class="card"><h3>📉 Cash balance by scenario</h3>
+ <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" role="img" aria-label="Cash balance over months for three demand scenarios"><line x1="${pad}" x2="${W-12}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--border)" stroke-dasharray="4 4"/>${lines}
+ <text x="4" y="${Y(mx)+4}" font-size="10" fill="var(--muted)">${inr(mx)}</text><text x="4" y="${Y(mn)}" font-size="10" fill="var(--muted)">${inr(mn)}</text><text x="${pad}" y="${H-4}" font-size="10" fill="var(--muted)">Month 1</text><text x="${W-52}" y="${H-4}" font-size="10" fill="var(--muted)">Month ${N}</text></svg>
+ <div class="chips" style="margin-top:6px">${names.map(n=>`<span class="chip" style="background:var(--s2);border-color:var(--border);color:${n[1]}">● ${n[0]} (${sc[n[0]].demand_multiplier}× demand)</span>`).join('')}</div></div>
+ <div class="card" style="margin-top:14px"><h3>📋 Base scenario by month</h3><div class="tblw"><table class="tbl"><tr><th>Month</th><th>Orders</th><th>Revenue</th><th>Profit</th><th>Cash</th></tr>${base0.monthly.map(m=>`<tr><td>${m.month}</td><td>${Math.round(m.orders)}</td><td>${inr(m.revenue)}</td><td style="color:${m.profit<0?'var(--bad)':'var(--ok)'}">${inr(m.profit)}</td><td>${inr(m.cash_balance)}</td></tr>`).join('')}</table></div>
+ <p class="muted" style="margin:10px 0 0">${esc(d.disclaimer)}</p></div>`}
+route();
+</script>
+</body>
+</html>

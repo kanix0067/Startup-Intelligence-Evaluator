@@ -1,0 +1,12 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.7.0
+python-dotenv>=1.0.1
+google-genai>=1.0.0
+tavily-python>=0.5.0
+
+# Not imported by any current agent yet (kept here because they are named
+# in the project's tech-stack plan; install when an agent starts using
+# them, e.g. deeper HTML scraping or geospatial lookups)
+# requests>=2.32.0
+# beautifulsoup4>=4.12.0
